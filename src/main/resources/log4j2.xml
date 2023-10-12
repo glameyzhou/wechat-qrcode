@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" schema="Log4J-V2.2.xsd">
+    <Properties>
+        <Property name="var.log.level">INFO</Property>
+        <Property name="var.log.dev.level">INFO</Property>
+        <Property name="var.log.path.dir">/root/logs/wechat-qrcode</Property>
+        <Property name="var.output.pattern">[%-5p %d{yyyy-MM-dd HH:mm:ss,SSS}][PFTID:%X{PFTID}][TRACEID:%X{traceId}][THREAD:%t] %c(%L):%m%n
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="${var.output.pattern}"/>
+        </Console>
+
+        <RollingFile bufferSize="1024" name="wechat-qrcode-log"
+                     fileName="${var.log.path.dir}/debug.log"
+                     filePattern="${var.log.path.dir}/debug.%i">
+            <PatternLayout pattern="${var.output.pattern}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="500MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="4"/>
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+        <AsyncRoot level="INFO" includeLocation="true">
+            <AppenderRef ref="stdout"/>
+            <AppenderRef ref="wechat-qrcode-log"/>
+        </AsyncRoot>
+        <!-- project loggers end -->
+    </Loggers>
+</Configuration>
